@@ -1,0 +1,61 @@
+pipeline {
+   agent any
+     stages{
+			stage('checkout') {
+			steps {
+				git 'https://github.com/naveenkonukati/petclinic.git'
+				}
+			}
+
+		stage('build') {
+		    steps {
+			    sh 'mvn clean package'
+		     }
+	   	}
+		stage('archive') {
+			steps {
+		    	archiveArtifacts artifacts: 'target/*.?ar', followSymlinks: false
+		    }
+		}
+		stage('unit tests') {
+			steps {
+		    	junit 'target/surefire-reports/*.xml'
+		  }
+		}
+		stage('nexus artifact') {
+			steps {
+		    	nexusArtifactUploader artifacts: [[artifactId: 'spring-petclinic',
+				classifier: '',
+				file: 'target/petclinic.war',
+				type: 'war']],
+				credentialsId: 'nexus', 
+				groupId: 'org.springframework.samples',
+				nexusUrl: '192.168.1.7:8081', 
+				nexusVersion: 'nexus2',
+				protocol: 'http',
+				repository: 'snapshots',
+				version: '4.2.6-SNAPSHOT'
+		   	}    
+		}
+	}
+	
+	post {
+		always {
+			echo 'welcome to devops'
+		}
+		success {
+			echo 'build is success'
+		}
+		failure {
+			echo 'build is failed'
+		}
+    }
+}
+
+def notify(status){
+	emailext (
+		body: "${status}-${env.BUILD_URL}", 
+		subject: "JOB:${env.JOB_NAME} with build: ${env.BUILD_ID}${status}", 
+		to: 'udu6767@gmail.com'
+	)
+}
