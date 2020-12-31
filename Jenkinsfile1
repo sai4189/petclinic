@@ -1,5 +1,5 @@
 pipeline {
-   agent any
+   agent { label 'myagent' }
    environment {
 		def tomcatDevIp = '52.15.71.144'
 		def tomcatHome = '/home/ec2-user/apache-tomcat-8.5.61'
