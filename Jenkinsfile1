@@ -7,11 +7,6 @@ pipeline {
         	def tomcatStop = "${tomcatHome}/bin/shutdown.sh"
 	}
      stages{
-		stage('checkout') {
-			steps {
-				git 'https://github.com/naveenkonukati/petclinic.git'
-			}
-		}
 		stage('build') {
 			steps {
 			   	 sh 'mvn clean package'
