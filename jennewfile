@@ -1,30 +1,35 @@
 pipeline {
    agent any
+   environment {
+		def tomcatDevIp = '52.15.71.144'
+		def tomcatHome = '/home/ec2-user/apache-tomcat-8.5.61'
+        	def tomcatStart = "${tomcatHome}/bin/startup.sh"
+        	def tomcatStop = "${tomcatHome}/bin/shutdown.sh"
+	}
      stages{
-			stage('checkout') {
+		stage('checkout') {
 			steps {
 				git 'https://github.com/naveenkonukati/petclinic.git'
-				}
 			}
-
+		}
 		stage('build') {
-		    steps {
-			    sh 'mvn clean package'
-		     }
+			steps {
+			   	 sh 'mvn clean package'
+   			}
 	   	}
 		stage('archive') {
 			steps {
-		    	archiveArtifacts artifacts: 'target/*.?ar', followSymlinks: false
-		    }
+		    		archiveArtifacts artifacts: 'target/*.?ar', followSymlinks: false
+		    	}
 		}
 		stage('unit tests') {
 			steps {
-		    	junit 'target/surefire-reports/*.xml'
-		  }
+		    		junit 'target/surefire-reports/*.xml'
+		  	}
 		}
 		stage('nexus artifact') {
 			steps {
-		    	nexusArtifactUploader artifacts: [[artifactId: 'spring-petclinic',
+		    		nexusArtifactUploader artifacts: [[artifactId: 'spring-petclinic',
 				classifier: '',
 				file: 'target/petclinic.war',
 				type: 'war']],
@@ -36,6 +41,25 @@ pipeline {
 				repository: 'snapshots',
 				version: '4.2.6-SNAPSHOT'
 		   	}    
+		}
+		
+		
+		stage('Deploy') {
+			steps {
+				script {
+					//sshagent (credentials: ['tomcat']) {
+					//	sh "scp -o StrictHostKeyChecking=no target/petclinic.war ec2-user@${tomcatDevIp}:${tomcatHome}/webapps/petclinic.war"
+                			//	sh "ssh sonar@${tomcatDevIp} ${tomcatStop}"
+                			//	sh "ssh sonar@${tomcatDevIp} ${tomcatStart}"
+					
+				sh '''
+				cp -r target/petclinic.war ${tomcatHome}/webapps/petclinic.war
+				${tomcatStop}
+				${tomcatStart}
+				'''
+            				//}
+            			}
+			}
 		}
 	}
 	
