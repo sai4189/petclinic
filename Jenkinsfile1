@@ -1,11 +1,5 @@
 pipeline {
-   agent { label 'myagent' }
-   environment {
-		def tomcatDevIp = '52.15.71.144'
-		def tomcatHome = '/home/ec2-user/apache-tomcat-8.5.61'
-        	def tomcatStart = "${tomcatHome}/bin/startup.sh"
-        	def tomcatStop = "${tomcatHome}/bin/shutdown.sh"
-	}
+   agent any
      stages{
 		stage('build') {
 			steps {
@@ -22,7 +16,7 @@ pipeline {
 		    		junit 'target/surefire-reports/*.xml'
 		  	}
 		}
-	/*	stage('nexus artifact') {
+		stage('nexus artifact') {
 			steps {
 		    		nexusArtifactUploader artifacts: [[artifactId: 'spring-petclinic',
 				classifier: '',
@@ -30,34 +24,15 @@ pipeline {
 				type: 'war']],
 				credentialsId: 'nexus', 
 				groupId: 'org.springframework.samples',
-				nexusUrl: '192.168.1.7:8081', 
+				nexusUrl: '3.139.61.0:8081/nexus', 
 				nexusVersion: 'nexus2',
 				protocol: 'http',
 				repository: 'snapshots',
 				version: '4.2.6-SNAPSHOT'
 		   	}    
 		}
-		*/
-		
-		stage('Deploy') {
-			steps {
-				script {
-					//sshagent (credentials: ['tomcat']) {
-					//	sh "scp -o StrictHostKeyChecking=no target/petclinic.war ec2-user@${tomcatDevIp}:${tomcatHome}/webapps/petclinic.war"
-                			//	sh "ssh sonar@${tomcatDevIp} ${tomcatStop}"
-                			//	sh "ssh sonar@${tomcatDevIp} ${tomcatStart}"
-					
-				sh '''
-				cp -r target/petclinic.war ${tomcatHome}/webapps/petclinic.war
-				${tomcatStop}
-				${tomcatStart}
-				'''
-            				//}
-            			}
-			}
-		}
-	}
-	
+			
+	}		
 	post {
 		always {
 			echo 'welcome to devops'
