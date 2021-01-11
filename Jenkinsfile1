@@ -44,7 +44,7 @@ pipeline {
         			userRemoteConfigs: [[url: 'https://github.com/naveenkonukati/tomcat-deploy.git']]])
 			sh '''
 				cd tomcat-standalone
-				ansible-playbook -i production -e site.yml
+				sudo ansible-playbook -i production -e site.yml
 			'''
 			}
 			
