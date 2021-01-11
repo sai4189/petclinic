@@ -39,11 +39,11 @@ pipeline {
 			steps {
 				checkout([$class: 'GitSCM', branches: [[name: '*/master']],
 				doGenerateSubmoduleConfigurations: false, 
-                                extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'tomcat-standalone']],
+                                extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'ansible']],
 				submoduleCfg: [], 
         			userRemoteConfigs: [[url: 'https://github.com/naveenkonukati/tomcat-deploy.git']]])
 			sh '''
-				cd tomcat-standalone
+				cd ansible
 				sudo ansible-playbook -i production -e site.yml
 			'''
 			}
