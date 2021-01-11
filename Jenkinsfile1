@@ -37,7 +37,6 @@ pipeline {
                 		ok "Yes, we should."
             		}
 			steps {
-				// git 'https://github.com/akmaharshi/tomcat-standalone.git'
 				checkout([$class: 'GitSCM', branches: [[name: '*/master']],
 				doGenerateSubmoduleConfigurations: false, 
                                 extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'tomcat-standalone']],
