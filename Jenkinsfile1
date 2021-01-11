@@ -42,9 +42,12 @@ pipeline {
                                 extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'tomcat-standalone']],
 				submoduleCfg: [], 
         			userRemoteConfigs: [[url: 'https://github.com/naveenkonukati/tomcat-deploy.git']]])
-				
-				
+			sh '''
+				cd ansible
+				sudo ansible-playbook -i production -e "BUILD_NO=${BUILD_NUMBER}" ite.yml
+			'''
 			}
+			
 		}	
 			
 	}		
