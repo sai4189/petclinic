@@ -1,6 +1,11 @@
 pipeline {
    agent any
      stages{
+           	stage('Checkout') {
+			steps {
+				git url: 'https://github.com/naveenkonukati/petclinic.git'
+			}
+		}
 		stage('build') {
 			steps {
 			   	 sh 'mvn clean package'
