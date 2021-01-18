@@ -21,7 +21,7 @@ pipeline {
 		    		junit 'target/surefire-reports/*.xml'
 		  	}
 		}
-		stage('nexus artifact') {
+	/*	stage('nexus artifact') {
 			steps {
 		    		nexusArtifactUploader artifacts: [[artifactId: 'spring-petclinic',
 				classifier: '',
@@ -35,7 +35,7 @@ pipeline {
 				repository: 'releases',
 				version: '4.2.6-SNAPSHOT'
 		   	}    
-		}
+		}	*/
 		stage('Deploy') {
 			input {
                 		message "Should we continue?"
