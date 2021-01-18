@@ -30,7 +30,7 @@ pipeline {
 				groupId: 'org.springframework.samples',
 				nexusUrl: '18.217.251.100/nexus',
 				nexusVersion: 'nexus2', protocol: 'http',
-				repository: 'snapshots',
+				repository: 'releases',
 				version: '4.2.6-SNAPSHOT'
 			}	
 		}
