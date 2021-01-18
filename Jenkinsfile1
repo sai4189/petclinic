@@ -26,10 +26,12 @@ pipeline {
 				nexusArtifactUploader artifacts: [[artifactId: 'spring-petclinic',
 				classifier: '',
 				file: 'target/petclinic.war',
-				type: 'war']], credentialsId: 'newnexus',
+				type: 'war']],
+				credentialsId: 'newnexus',
 				groupId: 'org.springframework.samples',
-				nexusUrl: '18.217.251.100/nexus',
-				nexusVersion: 'nexus2', protocol: 'http',
+				nexusUrl: '3.17.37.185:8081/nexus',
+				nexusVersion: 'nexus2',
+				protocol: 'http',
 				repository: 'releases',
 				version: '4.2.6-SNAPSHOT'
 			}	
