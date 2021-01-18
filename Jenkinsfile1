@@ -13,7 +13,7 @@ pipeline {
 	   	}
 		stage('archive') {
 			steps {
-		    		archiveArtifacts artifacts: 'target/*.?ar', followSymlinks: false
+		    		archiveArtifacts artifacts: 'target/*.war'
 		    	}
 		}
 		stage('unit tests') {
@@ -21,19 +21,19 @@ pipeline {
 		    		junit 'target/surefire-reports/*.xml'
 		  	}
 		}
-			stage('artifact nexus') {
+		stage('artifact nexus') {
 			steps {
 				nexusArtifactUploader artifacts: [[artifactId: 'spring-petclinic',
 				classifier: '',
 				file: 'target/petclinic.war',
 				type: 'war']],
-				credentialsId: 'newnexus',
+				credentialsId: 'nexusidnew',
 				groupId: 'org.springframework.samples',
-				nexusUrl: '3.17.37.185:8081/nexus',
+				nexusUrl: '3.134.79.254:8081/nexus',
 				nexusVersion: 'nexus2',
 				protocol: 'http',
 				repository: 'releases',
-				version: '4.2.6-SNAPSHOT'
+				version: "4.2.${BUILD_NUMBER}"
 			}	
 		}
 		stage('Deploy') {
