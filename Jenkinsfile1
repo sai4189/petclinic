@@ -29,7 +29,7 @@ pipeline {
 				type: 'war']],
 				credentialsId: 'mynexus', 
 				groupId: 'org.springframework.samples',
-				nexusUrl: '18.222.240.88:8081/nexus' 
+				nexusUrl: '18.217.251.100:8081/nexus' 
 				nexusVersion: 'nexus2',
 				protocol: 'http',
 				repository: 'releases',
