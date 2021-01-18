@@ -21,21 +21,21 @@ pipeline {
 		    		junit 'target/surefire-reports/*.xml'
 		  	}
 		}
-	/*	stage('nexus artifact') {
+			stage('artifact nexus') {
 			steps {
-		    		nexusArtifactUploader artifacts: [[artifactId: 'spring-petclinic',
+				nexusArtifactUploader artifacts: [[artifactId: 'spring-petclinic',
 				classifier: '',
 				file: 'target/petclinic.war',
 				type: 'war']],
-				credentialsId: 'mynexus', 
+				credentialsId: 'mynexus',
 				groupId: 'org.springframework.samples',
-				nexusUrl: '18.217.251.100:8081/nexus' 
+				nexusUrl: '18.217.251.100:8081/nexus',
 				nexusVersion: 'nexus2',
 				protocol: 'http',
 				repository: 'releases',
 				version: '4.2.6-SNAPSHOT'
-		   	}    
-		}	*/
+			}	
+		}
 		stage('Deploy') {
 			input {
                 		message "Should we continue?"
